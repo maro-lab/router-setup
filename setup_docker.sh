@@ -56,7 +56,6 @@ sed -i \
   -e 's|{{DOMAIN}}|'$DOMAIN'|g' \
   -e 's|{{EMAIL}}|'$EMAIL'|g' \
   traefik.toml
-sed -i  traefik.toml
 find configs -type f -exec sed -i \
   -e 's|{{SUBNET_RANGE}}|'$SUBNET_RANGE'|g' \
   -e 's|{{BACKEND_IP}}|captain-nginx|g' \
