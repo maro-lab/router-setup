@@ -1,0 +1,45 @@
+version: "3.8"
+
+networks:
+  captain:
+    external:
+      name: captain-overlay-network
+  router:
+    driver: overlay
+    attachable: true
+
+configs:
+  traefik_static:
+    file: ./traefik.toml
+  traefik_dynamic:
+    file: ./configs/config.yaml
+
+secrets:
+  cf_dns_api_token:
+    file: ./secrets/cf_dns_api_token
+
+services:
+  traefik:
+    image: "traefik:v2.4"
+    networks:
+      - router
+      - captain
+    ports:
+      - "53:53"
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    configs:
+      - source: traefik_static
+        target: /etc/traefik/traefik.toml
+      - source: traefik_dynamic
+        target: /etc/traefik/configs/config.yaml
+    secrets:
+      - cf_dns_api_token
+    environment:
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_dns_api_token
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+    deploy:
+      placement:
+        constraints: [node.hostname == router]
