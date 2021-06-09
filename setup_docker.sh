@@ -47,12 +47,16 @@ sudo ln -s -f /run/systemd/resolve/resolv.conf /etc/resolv.conf
 sudo systemctl reload-or-restart systemd-resolved
 
 # sed config files
-sed -i 's|{{DOMAIN}}|'$DOMAIN'|g' traefik.toml
-sed -i 's|{{EMAIL}}|'$EMAIL'|g' traefik.toml
+sed -i \
+  -e 's|{{DOMAIN}}|'$DOMAIN'|g' \
+  -e 's|{{EMAIL}}|'$EMAIL'|g' \
+  traefik.toml
+sed -i  traefik.toml
 find configs -type f -exec sed -i \
   -e 's|{{SUBNET_RANGE}}|'$SUBNET_RANGE'|g' \
   -e 's|{{BACKEND_IP}}|'$BACKEND_IP'|g' \
-  -e 's|{{DOMAIN}}|'$DOMAIN'|g' {} \;
+  -e 's|{{DOMAIN}}|'$DOMAIN'|g' \
+  {} \;
 
 # Write secret
 mkdir -p secrets

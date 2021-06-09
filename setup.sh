@@ -47,8 +47,10 @@ sudo chown -R root:root /etc/traefik
 sudo chown -R traefik:traefik /etc/traefik/acme
 
 # Move static config file
-sed -i 's|{{DOMAIN}}|'$DOMAIN'|g' traefik.toml
-sed -i 's|{{EMAIL}}|'$EMAIL'|g' traefik.toml
+sed -i \
+  -e 's|{{DOMAIN}}|'$DOMAIN'|g' \
+  -e 's|{{EMAIL}}|'$EMAIL'|g' \
+  traefik.toml
 sudo mv traefik.toml /etc/traefik
 sudo chown root:root /etc/traefik/traefik.toml
 sudo chmod 644 /etc/traefik/traefik.toml
@@ -57,7 +59,8 @@ sudo chmod 644 /etc/traefik/traefik.toml
 find configs -type f -exec sed -i \
   -e 's|{{SUBNET_RANGE}}|'$SUBNET_RANGE'|g' \
   -e 's|{{BACKEND_IP}}|'$BACKEND_IP'|g' \
-  -e 's|{{DOMAIN}}|'$DOMAIN'|g' {} \;
+  -e 's|{{DOMAIN}}|'$DOMAIN'|g' \
+  {} \;
 sudo mkdir /etc/traefik/configs
 sudo mv configs/* /etc/traefik/configs/
 sudo chown -R root:root /etc/traefik/configs/*
