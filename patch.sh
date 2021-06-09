@@ -2,7 +2,7 @@
 
 set -e
 
-eval .env
+eval $(cat .env)
 
 # sed config files
 sed -i \
