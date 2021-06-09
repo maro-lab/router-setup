@@ -70,6 +70,11 @@ sudo mv secrets/* /etc/traefik/secrets/
 sudo chown -R root:root /etc/traefik/secrets/*
 sudo chmod -R 644 /etc/traefik/secrets/*
 
+# Make port 53 available
+sudo mkdir -p /etc/systemd/resolved.conf.d
+sudo mv resolved.conf.d/* /etc/systemd/resolved.conf.d
+sudo ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
+systemctl reload-or-restart systemd-resolved
 
 # Install and enable service
 sudo mv traefik.service /etc/systemd/system/
