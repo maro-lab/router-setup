@@ -4,5 +4,5 @@ set -e
 
 ./patch.sh
 
-sudo docker-compode pull
-sudo docker stack deploy -c <(sudo docker-compose config) router
+sudo docker-compose pull
+sudo docker stack deploy -c docker-compose.yaml router
