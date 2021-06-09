@@ -1,0 +1,85 @@
+################################################################
+#
+# Configuration sample for Traefik v2.
+#
+# For Traefik v1: https://github.com/traefik/traefik/blob/v1.7/traefik.sample.toml
+#
+################################################################
+
+################################################################
+# Global configuration
+################################################################
+[global]
+  checkNewVersion = true
+  sendAnonymousUsage = false
+
+################################################################
+# Traefik logs configuration
+################################################################
+
+[log]
+  level = "INFO"
+
+################################################################
+# Access logs configuration
+################################################################
+
+[accessLog]
+
+################################################################
+# API and dashboard configuration
+################################################################
+
+[api]
+  dashboard = true
+
+################################################################
+# Metrics configuration
+################################################################
+
+[metrics]
+  [metrics.prometheus]
+    entryPoint = "metrics"
+
+################################################################
+# EntryPoints configuration
+################################################################
+
+[entryPoints]
+  [entryPoints.dns]
+    address = ":53/udp"
+  [entryPoints.web]
+    address = ":80"
+  [entryPoints.websecure]
+    address = ":443"
+    [entryPoints.websecure.http]
+      [entryPoints.websecure.http.tls]
+        certResolver = "letsencrypt"
+
+        [[entryPoints.websecure.http.tls.domains]]
+          main = "*.{{DOMAIN}}"
+          sans = ["{{DOMAIN}}"]
+
+        [[entryPoints.websecure.http.tls.domains]]
+          main = "*.internal.{{DOMAIN}}"
+
+################################################################
+# Provider backend configuration
+################################################################
+
+[providers]
+  [providers.file]
+    directory = "/etc/traefik/configs"
+    watch = true
+
+################################################################
+# Lets Encrypt config
+################################################################
+
+[certificatesResolvers]
+  [certificatesResolvers.letsencrypt]
+    [certificatesResolvers.letsencrypt.acme]
+      email = "{{EMAIL}}"
+      storage = "/etc/traefik/acme/acme.json"
+      [certificatesResolvers.letsencrypt.acme.dnsChallenge]
+        provider = "cloudflare"

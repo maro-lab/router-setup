@@ -1,0 +1,38 @@
+http:
+  routers:
+    PublicRouter:
+      entryPoints:
+        - web
+        - websecure
+      service: backend
+      rule: HostRegexp(`{{DOMAIN}}`, `{subdomain:[a-z]+}.{{DOMAIN}}`)
+    InternalRouter:
+      entryPoints:
+        - web
+        - websecure
+      middlewares:
+        - internal
+      service: backend
+      rule: HostRegexp(`{subdomain:[a-z]+}.internal.{{DOMAIN}}`)
+  services:
+    backend:
+      loadBalancer:
+        servers:
+          - url: http://{{BACKEND_IP}}:80
+  middlewares:
+    internal:
+      ipWhiteList:
+        sourceRange:
+          - {{SUBNET_RANGE}}
+
+udp:
+  routers:
+    DNSRouter:
+      entrypoints:
+        - dns
+      service: dns-backend
+  services:
+    dns-backend:
+      loadBalancer:
+        servers:
+          - address: "{{BACKEND_IP}}:53"
