@@ -33,12 +33,17 @@ read NODE_IP
 curl -fsSL https://get.docker.com | bash
 
 # Join docker swarm
-echo "Enter docker swarm join token"
+echo "Enter docker swarm join token "
 read SWARM_JOIN_TOKEN
 sudo docker swarm join --token $SWARM_JOIN_TOKEN --advertise-addr $NODE_IP:2377 $BACKEND_IP:2377
 
+NODE_ID=$(sudo docker info --format "{{.Swarm.NodeID}}")
+
+echo "Run 'docker node update --label-add type=router $NODE_ID' on your manager node"
+read
+
 # Setup hostname
-sudo hostnamectl set-hostname router
+sudo hostnamectl set-hostname router-${NODE_IP}
 
 # Make port 53 available
 sudo mkdir -p /etc/systemd/resolved.conf.d

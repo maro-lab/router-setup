@@ -42,4 +42,4 @@ services:
       - "./letsencrypt:/letsencrypt"
     deploy:
       placement:
-        constraints: [node.hostname == router]
+        constraints: [node.labels.type == router]
