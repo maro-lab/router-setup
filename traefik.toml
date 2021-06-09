@@ -39,7 +39,7 @@
 
 [metrics]
   [metrics.prometheus]
-    entryPoint = "metrics"
+    entryPoint = "web"
 
 ################################################################
 # EntryPoints configuration

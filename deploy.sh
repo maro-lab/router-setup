@@ -2,4 +2,5 @@
 
 set -e
 
-sudo docker stack deploy -c <(docker-compose config) router
+sudo docker-compode pull
+sudo docker stack deploy -c <(sudo docker-compose config) router
