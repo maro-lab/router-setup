@@ -15,13 +15,15 @@ http:
       service: backend
       rule: HostRegexp(`{subdomain:[a-z]+}.internal.{{DOMAIN}}`)
     HealthCheckRouter:
-      - web
-      - websecure
+      entryPoints:
+        - web
+        - websecure
       service: backend
       rule: Host(`captain.internal.{{DOMAIN}}`) && Path(`/checkhealth`)
     ChallengeCheckRouter:
-      - web
-      - websecure
+      entryPoints:
+        - web
+        - websecure
       service: backend
       rule: HostRegexp(`{subdomain:[a-z]+}.internal.{{DOMAIN}}`) && PathPrefix(`/.well-known/`)
   services:
