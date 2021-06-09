@@ -50,22 +50,23 @@ sudo chown -R traefik:traefik /etc/traefik/acme
 sudo mv traefik.toml /etc/traefik
 sudo chown root:root /etc/traefik/traefik.toml
 sudo chmod 644 /etc/traefik/traefik.toml
-sudo sed -i "s/{{DOMAIN}}/$DOMAIN/" /etc/traefik/traefik.toml
-sudo sed -i "s/{{EMAIL}}/$EMAIL/" /etc/traefik/traefik.toml
+sudo sed -i "s/{{DOMAIN}}/$DOMAIN/g" /etc/traefik/traefik.toml
+sudo sed -i "s/{{EMAIL}}/$EMAIL/g" /etc/traefik/traefik.toml
 
 # Move dynamic configs
 sudo mkdir /etc/traefik/configs
-sudo mv -r configs/* /etc/traefik/configs/
+sudo mv configs/* /etc/traefik/configs/
 sudo chown -R root:root /etc/traefik/configs/*
 sudo chmod -R 644 /etc/traefik/configs/*
-sudo find . -type f -exec sed -i "s/{{SUBNET_RANGE}}/$SUBNET_RANGE/" {} \;
-sudo find . -type f -exec sed -i "s/{{BACKEND_IP}}/$BACKEND_IP/" {} \;
-sudo find . -type f -exec sed -i "s/{{DOMAIN}}/$DOMAIN/" {} \;
+sudo find /etc/traefik/configs -type f -exec sed -i \
+  -e "s/{{SUBNET_RANGE}}/$SUBNET_RANGE/g" \
+  -e "s/{{BACKEND_IP}}/$BACKEND_IP/g" \
+  -e "s/{{DOMAIN}}/$DOMAIN/g" {} \;
 
 # Move secrets
 sudo mkdir /etc/traefik/secrets
-sudo echo "$CF_API_TOKEN" > /etc/traefik/secrets/cf_dns_api_token
-sudo mv -r secrets/* /etc/traefik/secrets/
+echo "$CF_API_TOKEN" > secrets/cf_dns_api_token
+sudo mv secrets/* /etc/traefik/secrets/
 sudo chown -R root:root /etc/traefik/secrets/*
 sudo chmod -R 644 /etc/traefik/secrets/*
 
