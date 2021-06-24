@@ -20,6 +20,9 @@ echo "Enter the Zerotier IP of the backend"
 read BACKEND_IP
 echo "BACKEND_IP=$BACKEND_IP" >> .env
 
+# Setup hostname
+sudo hostnamectl set-hostname router-${NODE_IP}
+
 # Install docker
 curl -fsSL https://get.docker.com | bash
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -34,9 +37,6 @@ NODE_ID=$(sudo docker info --format "{{.Swarm.NodeID}}")
 
 echo "Run 'docker node update --label-add type=router $NODE_ID' on your manager node"
 read
-
-# Setup hostname
-sudo hostnamectl set-hostname router-${NODE_IP}
 
 # Make port 53 available
 sudo mkdir -p /etc/systemd/resolved.conf.d
