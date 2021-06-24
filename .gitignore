@@ -1,3 +1,4 @@
 letsencrypt/
 secrets/
 .env
+configs/config.yaml

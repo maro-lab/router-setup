@@ -10,12 +10,15 @@ networks:
 
 configs:
   traefik_static:
+    name: traefik_static-${VERSION}
     file: ./traefik.toml
   traefik_dynamic:
+    name: traefik_dynamic-${VERSION}
     file: ./configs/config.yaml
 
 secrets:
   cf_dns_api_token:
+    name: cf_dns_api_token-${VERSION}
     file: ./secrets/cf_dns_api_token
 
 volumes:
@@ -56,5 +59,8 @@ services:
     volumes:
       - "router_certs:/etc/traefik/acme"
     deploy:
+      labels:
+        prometheus-job: "router"
+        prometheus-port: "80"
       placement:
         constraints: [node.labels.type == router]

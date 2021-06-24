@@ -40,6 +40,7 @@
 [metrics]
   [metrics.prometheus]
     entryPoint = "web"
+    manualRouting = true
 
 ################################################################
 # EntryPoints configuration

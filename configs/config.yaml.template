@@ -1,11 +1,23 @@
 http:
   routers:
+    # =================
+    # Public Routers
+    # =================
     PublicRouter:
       entryPoints:
         - web
         - websecure
       service: backend
       rule: HostRegexp(`{{DOMAIN}}`, `{subdomain:[a-z]+}.{{DOMAIN}}`)
+    ChallengeCheckRouter:
+      entryPoints:
+        - web
+        - websecure
+      service: backend
+      rule: HostRegexp(`{subdomain:[a-z]+}.internal.{{DOMAIN}}`) && PathPrefix(`/.well-known/`)
+    # =================
+    # Internal Routers
+    # =================
     InternalRouter:
       entryPoints:
         - web
@@ -14,18 +26,24 @@ http:
         - internal
       service: backend
       rule: HostRegexp(`{subdomain:[a-z]+}.internal.{{DOMAIN}}`)
-    HealthCheckRouter:
+    # =================
+    # Meta (Internal) Routes
+    # =================
+    PrometheusInternalRouter:
       entryPoints:
         - web
-        - websecure
-      service: backend
-      rule: Host(`captain.internal.{{DOMAIN}}`) && Path(`/checkhealth`)
-    ChallengeCheckRouter:
+      middlewares:
+        - internal
+      service: prometheus@internal
+      rule: PathPrefix(`/metrics`)
+    DashboardRouter:
+      priority: 100
       entryPoints:
-        - web
         - websecure
-      service: backend
-      rule: HostRegexp(`{subdomain:[a-z]+}.internal.{{DOMAIN}}`) && PathPrefix(`/.well-known/`)
+      middlewares:
+        - internal
+      service: api@internal
+      rule: Host(`traefik.internal.{{DOMAIN}}`)
   services:
     backend:
       loadBalancer:
@@ -36,7 +54,6 @@ http:
       ipWhiteList:
         sourceRange:
           - {{SUBNET_RANGE}}
-
 udp:
   routers:
     DNSRouter:
@@ -47,4 +64,4 @@ udp:
     dns-backend:
       loadBalancer:
         servers:
-          - address: "{{BACKEND_IP}}:53"
+          - address: "{{DNS_IP}}:53"
