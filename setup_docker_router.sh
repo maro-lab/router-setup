@@ -22,6 +22,7 @@ echo "BACKEND_IP=$BACKEND_IP" >> .env
 
 # Setup hostname
 sudo hostnamectl set-hostname router-${NODE_IP}
+sudo bash -c 'echo "127.0.0.1 $(hostname)" >> /etc/hosts'
 
 # Install docker
 curl -fsSL https://get.docker.com | bash
