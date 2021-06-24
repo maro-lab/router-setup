@@ -16,6 +16,10 @@ echo "Enter the Zerotier IP of the current node"
 read NODE_IP
 echo "NODE_IP=$NODE_IP" >> .env
 
+echo "Enter the Zerotier IP of the backend"
+read BACKEND_IP
+echo "BACKEND_IP=$BACKEND_IP" >> .env
+
 # Install docker
 curl -fsSL https://get.docker.com | bash
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
