@@ -43,3 +43,5 @@ sudo mkdir -p /etc/systemd/resolved.conf.d
 sudo mv resolved.conf.d/* /etc/systemd/resolved.conf.d
 sudo ln -s -f /run/systemd/resolve/resolv.conf /etc/resolv.conf
 sudo systemctl reload-or-restart systemd-resolved
+
+echo "Done!"
