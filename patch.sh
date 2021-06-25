@@ -9,7 +9,7 @@ sed -i \
   -e 's|{{DOMAIN}}|'$DOMAIN'|g' \
   -e 's|{{EMAIL}}|'$EMAIL'|g' \
   traefik.toml
-find configs -type f -exec sed -i \
+find configs -type f \( -iname "*.yaml" ! -iname "*.template.yaml" \) -exec sed -i \
   -e 's|{{SUBNET_RANGE}}|'$SUBNET_RANGE'|g' \
   -e 's|{{DOMAIN}}|'$DOMAIN'|g' \
   -e 's|{{DNS_IP}}|'$DNS_IP'|g' \

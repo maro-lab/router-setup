@@ -1,4 +1,6 @@
 letsencrypt/
 secrets/
 .env
-configs/config.yaml
+configs/*.yaml
+!configs/*.template.yaml
+traefik.toml

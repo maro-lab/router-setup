@@ -54,14 +54,25 @@ http:
       ipWhiteList:
         sourceRange:
           - {{SUBNET_RANGE}}
+tcp:
+  routers:
+    TCPDNSRouter:
+      entrypoints:
+        - tcpdns
+      service: tcp-dns-backend
+  services:
+    tcp-dns-backend:
+      loadBalancer:
+        servers:
+          - address: "{{DNS_IP}}:53"
 udp:
   routers:
-    DNSRouter:
+    UDPDNSRouter:
       entrypoints:
-        - dns
-      service: dns-backend
+        - udpdns
+      service: udp-dns-backend
   services:
-    dns-backend:
+    udp-dns-backend:
       loadBalancer:
         servers:
           - address: "{{DNS_IP}}:53"

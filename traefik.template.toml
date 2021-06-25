@@ -47,8 +47,10 @@
 ################################################################
 
 [entryPoints]
-  [entryPoints.dns]
+  [entryPoints.udpdns]
     address = ":53/udp"
+  [entryPoints.tcpdns]
+    address = ":53/tcp"
   [entryPoints.web]
     address = ":80"
   [entryPoints.websecure]
