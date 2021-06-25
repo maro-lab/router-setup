@@ -56,23 +56,28 @@ http:
           - {{SUBNET_RANGE}}
 tcp:
   routers:
-    TCPDNSRouter:
+    TimeMachineRouter:
       entrypoints:
-        - tcpdns
-      service: tcp-dns-backend
+        - smb
+      rule: HostSNI(`timemachine.internal.{{DOMAIN}}`)
+      service: timemachine-backend
+      tls:
+        certResolver: "letsencrypt"
+        domains:
+          - main: "timemachine.internal.{{DOMAIN}}"
   services:
-    tcp-dns-backend:
+    timemachine-backend:
       loadBalancer:
         servers:
-          - address: "{{DNS_IP}}:53"
+          - address: "{{DNS_IP}}:445"
 udp:
   routers:
-    UDPDNSRouter:
+    DNSRouter:
       entrypoints:
-        - udpdns
-      service: udp-dns-backend
+        - dns
+      service: dns-backend
   services:
-    udp-dns-backend:
+    dns-backend:
       loadBalancer:
         servers:
           - address: "{{DNS_IP}}:53"
