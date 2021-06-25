@@ -2,7 +2,7 @@
 
 set -e
 
-if [! -f '.env' ]; then
+if [ ! -f '.env' ]; then
   echo "Enter ZeroTier's subnet IP range"
   read SUBNET_RANGE
   echo "SUBNET_RANGE=$SUBNET_RANGE" >> .env
@@ -26,6 +26,10 @@ if [! -f '.env' ]; then
   echo "Enter LE email"
   read EMAIL
   echo "EMAIL=$EMAIL" >> .env
+else
+  echo ""
+  echo ".env present"
+  echo ""
 fi
 
 for file in $(find configs -type f -name '*.template.yaml'); do
@@ -35,4 +39,7 @@ done
 yes | cp -fr traefik.template.toml traefik.toml
 
 # Deploy
+echo ""
+echo "Deploying..."
+echo ""
 ./deploy.sh
