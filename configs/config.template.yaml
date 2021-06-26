@@ -53,7 +53,7 @@ http:
     internal:
       ipWhiteList:
         sourceRange:
-          - { { SUBNET_RANGE } }
+          - {{SUBNET_RANGE}}
 tcp:
   routers:
     TimeMachineRouter:
