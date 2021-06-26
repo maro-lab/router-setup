@@ -39,10 +39,4 @@ NODE_ID=$(sudo docker info --format "{{.Swarm.NodeID}}")
 echo "Run 'docker node update --label-add type=router $NODE_ID' on your manager node"
 read
 
-# Make port 53 available
-sudo mkdir -p /etc/systemd/resolved.conf.d
-sudo mv resolved.conf.d/* /etc/systemd/resolved.conf.d
-sudo ln -s -f /run/systemd/resolve/resolv.conf /etc/resolv.conf
-sudo systemctl reload-or-restart systemd-resolved
-
 echo "Done!"
