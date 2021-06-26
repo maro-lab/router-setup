@@ -53,7 +53,7 @@ http:
     internal:
       ipWhiteList:
         sourceRange:
-          - {{SUBNET_RANGE}}
+          - { { SUBNET_RANGE } }
 tcp:
   routers:
     TimeMachineRouter:
@@ -70,14 +70,3 @@ tcp:
       loadBalancer:
         servers:
           - address: "{{DNS_IP}}:445"
-udp:
-  routers:
-    DNSRouter:
-      entrypoints:
-        - dns
-      service: dns-backend
-  services:
-    dns-backend:
-      loadBalancer:
-        servers:
-          - address: "{{DNS_IP}}:53"

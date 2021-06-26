@@ -47,8 +47,6 @@
 ################################################################
 
 [entryPoints]
-  [entryPoints.dns]
-    address = ":53/udp"
   [entryPoints.smb]
     address = ":445/tcp"
   [entryPoints.web]
