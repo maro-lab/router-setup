@@ -48,25 +48,10 @@ http:
     backend:
       loadBalancer:
         servers:
-          - url: http://{{BACKEND_IP}}:80
+          - url: http://{{BACKEND_IP}}
   middlewares:
     internal:
       ipWhiteList:
         sourceRange:
+          - 10.0.0.0/16
           - {{SUBNET_RANGE}}
-tcp:
-  routers:
-    TimeMachineRouter:
-      entrypoints:
-        - smb
-      rule: HostSNI(`timemachine.internal.{{DOMAIN}}`)
-      service: timemachine-backend
-      tls:
-        certResolver: "letsencrypt"
-        domains:
-          - main: "timemachine.internal.{{DOMAIN}}"
-  services:
-    timemachine-backend:
-      loadBalancer:
-        servers:
-          - address: "{{DNS_IP}}:445"

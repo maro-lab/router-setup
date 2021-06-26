@@ -47,8 +47,6 @@
 ################################################################
 
 [entryPoints]
-  [entryPoints.smb]
-    address = ":445/tcp"
   [entryPoints.web]
     address = ":80"
   [entryPoints.websecure]
