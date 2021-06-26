@@ -22,6 +22,13 @@ if [ ! -f '.env' ]; then
   echo "Enter LE email"
   read EMAIL
   echo "EMAIL=$EMAIL" >> .env
+
+  echo "Disabling built in DNS resolver..."
+  sudo sed -i \
+    -e "s/^#Cache=yes/Cache=no/g" \
+    -e "s/^#DNSStubListener=yes/DNSStubListener=no/g" \
+    /etc/systemd/resolved.conf
+  sudo systemctl restart systemd-resolved
 else
   echo ""
   echo ".env present"
