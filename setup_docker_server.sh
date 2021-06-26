@@ -15,10 +15,6 @@ if [ ! -f '.env' ]; then
   read BACKEND_IP
   echo "BACKEND_IP=$BACKEND_IP" >> .env
 
-  echo "Enter the DNS IP"
-  read DNS_IP
-  echo "DNS_IP=$DNS_IP" >> .env
-
   echo "Enter Cloudflare's API token"
   read CF_API_TOKEN
   echo "CF_API_TOKEN=$CF_API_TOKEN" >> .env
