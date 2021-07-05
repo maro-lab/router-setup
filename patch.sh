@@ -4,6 +4,12 @@ set -e
 
 eval $(cat .env)
 
+for file in $(find configs -type f -name '*.template.yaml'); do
+    yes | cp -fr -- "$file" "${file%%.template.yaml}.yaml"
+done
+
+yes | cp -fr traefik.template.toml traefik.toml
+
 # sed config files
 sed -i \
   -e 's|{{DOMAIN}}|'$DOMAIN'|g' \
