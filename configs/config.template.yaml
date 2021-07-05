@@ -8,13 +8,13 @@ http:
         - web
         - websecure
       service: backend
-      rule: HostRegexp(`{{DOMAIN}}`, `{subdomain:[a-z]+}.{{DOMAIN}}`)
+      rule: HostRegexp(`{{DOMAIN}}`, `{subdomain:[a-z0-9-]+}.{{DOMAIN}}`)
     ChallengeCheckRouter:
       entryPoints:
         - web
         - websecure
       service: backend
-      rule: HostRegexp(`{subdomain:[a-z]+}.internal.{{DOMAIN}}`) && PathPrefix(`/.well-known/`)
+      rule: HostRegexp(`{subdomain:[a-z0-9-]+}.internal.{{DOMAIN}}`) && PathPrefix(`/.well-known/`)
     # =================
     # Internal Routers
     # =================
@@ -25,7 +25,7 @@ http:
       middlewares:
         - internal
       service: backend
-      rule: HostRegexp(`{subdomain:[a-z]+}.internal.{{DOMAIN}}`)
+      rule: HostRegexp(`{subdomain:[a-z0-9-]+}.internal.{{DOMAIN}}`)
     # =================
     # Meta (Internal) Routes
     # =================
@@ -54,4 +54,4 @@ http:
       ipWhiteList:
         sourceRange:
           - 10.0.0.0/16
-          - {{SUBNET_RANGE}}
+          - { { SUBNET_RANGE } }
