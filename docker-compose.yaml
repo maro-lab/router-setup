@@ -2,8 +2,11 @@ version: "3.8"
 
 networks:
   captain:
-    external:
-      name: captain-overlay-network
+    external: true
+    name: captain-overlay-network
+  prom:
+    external: true
+    name: devops_prom
   router:
     driver: overlay
     attachable: true
@@ -30,6 +33,7 @@ services:
     networks:
       - router
       - captain
+      - prom
     ports:
       - target: 80
         published: 80
