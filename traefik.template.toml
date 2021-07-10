@@ -25,6 +25,9 @@
 ################################################################
 
 [accessLog]
+  [accessLog.fields.names]
+    "RequestHost" = "keep"
+    "ClientUsername" = "drop"
 
 ################################################################
 # API and dashboard configuration
