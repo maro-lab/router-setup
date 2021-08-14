@@ -3,6 +3,8 @@
 set -e
 
 sudo apt update
+sudo apt install unattended-upgrades
+sudo dpkg-reconfigure unattended-upgrades
 
 echo "Enter the chosen ssh port"
 read SSH_PORT
