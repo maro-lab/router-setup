@@ -11,9 +11,7 @@ read SSH_PORT
 echo "SSH_PORT=$SSH_PORT" >> .env
 
 echo "Configuring ssh"
-sudo sed -i \
-  -e 's|#Port 22|Port '$SSH_PORT'|g' \ 
-  /etc/ssh/sshd_config
+sudo sed -i -e 's|#Port 22|Port '$SSH_PORT'|g' /etc/ssh/sshd_config
 sudo systemctl restart sshd
 
 echo "Configuring the firewall"
