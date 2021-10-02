@@ -35,6 +35,12 @@ sudo ufw allow in on tailscale0
 NODE_IP=$(sudo tailscale ip | head -n 1)
 echo "NODE_IP=$NODE_IP" >> .env
 
+# Configure tailscale access control
+echo "Update your Tailscale ACLs at https://login.tailscale.com/admin/acls"
+echo "Tailscale router IP: $NODE_IP"
+read
+echo ""
+
 echo "Enter the Tailscale IP of the backend"
 read BACKEND_IP
 echo "BACKEND_IP=$BACKEND_IP" >> .env
