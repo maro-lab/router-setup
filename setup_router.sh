@@ -72,6 +72,12 @@ NODE_ID=$(sudo docker info --format "{{.Swarm.NodeID}}")
 echo "Run 'docker node update --label-add type=router $NODE_ID' on your manager node"
 read
 
+# Configure DNS redirects
+echo "Update your DNS redirects for *.internal domains"
+echo "Tailscale router IP: $NODE_IP"
+read
+echo ""
+
 echo "Enabling firewall"
 sudo ufw enable
 
