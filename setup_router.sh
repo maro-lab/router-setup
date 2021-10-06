@@ -3,19 +3,45 @@
 set -e
 
 sudo apt update
+sudo apt install unattended-upgrades
+sudo dpkg-reconfigure unattended-upgrades
 
-# Install Tailscale
+echo "Enter the chosen ssh port"
+read SSH_PORT
+echo "SSH_PORT=$SSH_PORT" >> .env
 
+echo "Configuring ssh"
+sudo sed -i -e 's|#Port 22|Port '$SSH_PORT'|g' /etc/ssh/sshd_config
+sudo systemctl restart sshd
+
+echo "Configuring the firewall"
+sudo apt install ufw -y
+sudo ufw reset
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow $SSH_PORT/tcp
+sudo ufw allow 996,7946,4789,2377/tcp
+sudo ufw allow 7946,4789,2377/udp
+
+echo "Configuring tailscale"
 curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key add -
 curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | sudo tee /etc/apt/sources.list.d/tailscale.list
-
 sudo apt update
 sudo apt install tailscale
 
-sudo tailscale up
+sudo tailscale up --advertise-tags=tag:router
+
+sudo ufw allow 41641/udp
+sudo ufw allow in on tailscale0
 
 NODE_IP=$(sudo tailscale ip | head -n 1)
 echo "NODE_IP=$NODE_IP" >> .env
+
+# Configure tailscale access control
+echo "Update your Tailscale ACLs at https://login.tailscale.com/admin/acls"
+echo "Tailscale router IP: $NODE_IP"
+read
+echo ""
 
 echo "Enter the Tailscale IP of the backend"
 read BACKEND_IP
@@ -47,5 +73,14 @@ NODE_ID=$(sudo docker info --format "{{.Swarm.NodeID}}")
 
 echo "Run 'docker node update --label-add type=router $NODE_ID' on your manager node"
 read
+
+# Configure DNS redirects
+echo "Update your DNS redirects for *.internal domains"
+echo "Tailscale router IP: $NODE_IP"
+read
+echo ""
+
+echo "Enabling firewall"
+sudo ufw enable
 
 echo "Done!"
