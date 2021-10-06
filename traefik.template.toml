@@ -20,14 +20,17 @@
 [log]
   level = "INFO"
 
-################################################################
-# Access logs configuration
-################################################################
-
 [accessLog]
   [accessLog.fields.names]
     "RequestHost" = "keep"
     "ClientUsername" = "drop"
+
+################################################################
+# Traefik tracing configuration
+################################################################
+
+[tracing]
+  [tracing.jaeger]
 
 ################################################################
 # API and dashboard configuration
