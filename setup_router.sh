@@ -3,6 +3,7 @@
 set -e
 
 sudo apt update
+sudo apt upgrade
 sudo apt install unattended-upgrades
 sudo dpkg-reconfigure unattended-upgrades
 
