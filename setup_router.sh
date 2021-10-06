@@ -20,6 +20,8 @@ sudo ufw reset
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw allow $SSH_PORT/tcp
+sudo ufw allow 996,7946,4789,2377/tcp
+sudo ufw allow 7946,4789,2377/udp
 
 echo "Configuring tailscale"
 curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key add -
