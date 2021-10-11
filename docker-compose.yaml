@@ -57,6 +57,7 @@ services:
     volumes:
       - "router_certs:/etc/traefik/acme"
     deploy:
+      mode: global
       labels:
         prometheus-job: "router"
         prometheus-port: "80"
