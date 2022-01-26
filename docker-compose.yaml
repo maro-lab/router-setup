@@ -36,7 +36,7 @@ services:
       - prom
     ports:
       - target: 80
-        published: 80
+        published: 80 
         protocol: tcp
         mode: host
       - target: 443
@@ -62,4 +62,4 @@ services:
         prometheus-job: "router"
         prometheus-port: "80"
       placement:
-        constraints: [node.labels.type == router]
+        constraints: [node.labels.type == backend]
