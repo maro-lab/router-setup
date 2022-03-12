@@ -66,6 +66,10 @@
           sans = ["{{DOMAIN}}"]
 
         [[entryPoints.websecure.http.tls.domains]]
+          main = "*.{{DOMAIN_ALT}}"
+          sans = ["{{DOMAIN_ALT}}"]
+
+        [[entryPoints.websecure.http.tls.domains]]
           main = "*.internal.{{DOMAIN}}"
 
 ################################################################
