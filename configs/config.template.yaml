@@ -8,13 +8,13 @@ http:
         - web
         - websecure
       service: backend
-      rule: HostRegexp(`{{DOMAIN}}`, `{subdomain:[a-z0-9-]+}.{{DOMAIN}}`) || HostRegexp(`{{DOMAIN_ALT}}`, `{subdomain:[a-z0-9-]+}.{{DOMAIN_ALT}}`)
+      rule: HostRegexp(`{{DOMAIN}}`, `{subdomain:[a-z0-9-]+}.{{DOMAIN}}`)
     ChallengeCheckRouter:
       entryPoints:
         - web
         - websecure
       service: backend
-      rule: ( HostRegexp(`{subdomain:[a-z0-9-]+}.internal.{{DOMAIN}}`) || HostRegexp(`{subdomain:[a-z0-9-]+}.internal.{{DOMAIN_ALT}}`) ) && PathPrefix(`/.well-known/`)
+      rule: HostRegexp(`{subdomain:[a-z0-9-]+}.internal.{{DOMAIN}}`) && PathPrefix(`/.well-known/`)
     # =================
     # Internal Routers
     # =================

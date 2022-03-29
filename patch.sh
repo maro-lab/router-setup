@@ -13,14 +13,12 @@ yes | cp -fr traefik.template.toml traefik.toml
 # sed config files
 sed -i \
   -e 's|{{DOMAIN}}|'$DOMAIN'|g' \
-  -e 's|{{DOMAIN_ALT}}|'$DOMAIN_ALT'|g' \
   -e 's|{{EMAIL}}|'$EMAIL'|g' \
   traefik.toml
 find configs -type f \( -iname "*.yaml" ! -iname "*.template.yaml" \) -exec sed -i \
   -e 's|{{SUBNET_RANGE}}|'$SUBNET_RANGE'|g' \
   -e 's|{ { SUBNET_RANGE } }|'$SUBNET_RANGE'|g' \
   -e 's|{{DOMAIN}}|'$DOMAIN'|g' \
-  -e 's|{{DOMAIN_ALT}}|'$DOMAIN_ALT'|g' \
   -e 's|{{DNS_IP}}|'$DNS_IP'|g' \
   -e 's|{{BACKEND_IP}}|'$BACKEND_IP'|g' \
   {} \;
