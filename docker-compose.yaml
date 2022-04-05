@@ -53,7 +53,7 @@ services:
     environment:
       - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_dns_api_token
     env_file:
-      - ../swarmprom/tempo/tracing-config.env
+      - ../devops/tempo/tracing-config.env
     volumes:
       - "router_certs:/etc/traefik/acme"
     deploy:
@@ -62,4 +62,4 @@ services:
         prometheus-job: "router"
         prometheus-port: "80"
       placement:
-        constraints: [node.labels.type == backend]
+        constraints: [node.role == manager]
